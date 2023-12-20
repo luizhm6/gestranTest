@@ -8,9 +8,10 @@ import { FormComponent } from '../form/form.component';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit {
-  users: any;
+  users: any[] = [];
   displayedColumns: string[] = ['acoes', 'nome', 'idade', 'observacoes'];
   constructor(private service: CrudService, public dialog: MatDialog) {}
+  reduced: any[] = [];
 
   ngOnInit(): void {
     this.initializeTable();
@@ -19,6 +20,7 @@ export class TableComponent implements OnInit {
   initializeTable() {
     this.service.getUsers().subscribe((users) => {
       this.users = users;
+      this.reduced = users;
     });
   }
 
@@ -38,5 +40,16 @@ export class TableComponent implements OnInit {
   }
   removeUser(user: any) {
     this.service.removeUser(user);
+  }
+
+  filter(term: any) {
+    // obs fiz com reduce
+    this.reduced = this.users
+      .filter(
+        (user) =>
+          user.nome.toLocaleLowerCase().includes(term.value) ||
+          user.idade.toString().includes(term.value)
+      )
+      .map(({ id, nome, idade, observacoes }) => ({id, nome, idade, observacoes,}));
   }
 }
