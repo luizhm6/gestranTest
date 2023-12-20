@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class MockService {
 
-  users = new BehaviorSubject([{nome: 'Luiz', idade: 27, observacoes: ''}]);
+  users = new BehaviorSubject([{id: 1, nome: 'Luiz', idade: 27, observacoes: ''}]);
 
   constructor() { }
 

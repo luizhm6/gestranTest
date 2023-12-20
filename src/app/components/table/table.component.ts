@@ -19,13 +19,13 @@ export class TableComponent implements OnInit {
   initializeTable() {
     this.service.getUsers().subscribe((users) => {
       this.users = users;
-      console.log(users);
     });
   }
 
   openDialog(user?: any) {
     const dialogRef = this.dialog.open(FormComponent, {
       data: {
+        id: user?.id,
         nome: user?.nome,
         idade: user?.idade,
         obsercacoes: user?.observacoes,
@@ -35,5 +35,8 @@ export class TableComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.initializeTable();
     });
+  }
+  removeUser(user: any) {
+    this.service.removeUser(user);
   }
 }

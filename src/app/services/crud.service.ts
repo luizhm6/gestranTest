@@ -15,7 +15,21 @@ export class CrudService {
     oldUsers.push(user);
     this.mock.users.next(oldUsers);
   }
-  removeUser(user: any){
-
+  updateUser(user: any) {
+    let oldUsers = this.mock.users.getValue();
+    oldUsers.splice(
+      oldUsers.findIndex((search) => user.id == search.id),
+      1,
+      user
+    );
+    this.mock.users.next(oldUsers);
+  }
+  removeUser(user: any) {
+    let oldUsers = this.mock.users.getValue();
+    oldUsers.splice(
+      oldUsers.findIndex((search) => user.id == search.id),
+      1
+    );
+    this.mock.users.next(oldUsers);
   }
 }

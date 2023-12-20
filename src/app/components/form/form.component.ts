@@ -18,6 +18,7 @@ export class FormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.form = this.fb.group({
+      id: [null],
       nome: [
         null,
         [
@@ -42,7 +43,9 @@ export class FormComponent implements OnInit {
   }
 
   sendForm() {
-    this.service.addUser(this.form.value);
+    this.form.value.id ?
+    this.service.updateUser(this.form.value) :
+    this.service.addUser(this.form.value) ;
     this.close();
   }
 
@@ -56,6 +59,7 @@ export class FormComponent implements OnInit {
 
   fillForm() {
     this.form.patchValue({
+      id: this.data.id,
       nome: this.data.nome,
       idade: this.data.idade,
       observacoes: this.data.observacoes,

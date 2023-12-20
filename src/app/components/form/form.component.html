@@ -9,6 +9,6 @@
   <input type="text" id="observacoes" formControlName="observacoes"/>
   <div class="actions">
     <button (click)="formReset()">reset</button>
-    <button (click)="sendForm()" *ngIf="!update">add</button>
+    <button (click)="sendForm()">{{!update ? 'add' : 'update'}}</button>
   </div>
 </form>
