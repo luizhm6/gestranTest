@@ -12,6 +12,7 @@ export class CrudService {
   }
   addUser(user: any) {
     let oldUsers = this.mock.users.getValue();
+    user.id = Date.now().toString(36) + Math.random().toString(36).substr(2);
     oldUsers.push(user);
     this.mock.users.next(oldUsers);
   }
