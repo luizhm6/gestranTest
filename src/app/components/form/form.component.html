@@ -1,0 +1,14 @@
+<form [formGroup]="form">
+  <label for="nome">Nome</label>
+  <input type="text" id="nome" formControlName="nome"/>
+  <br />
+  <label for="idade">Idade</label>
+  <input type="text" id="idade" formControlName="idade"/>
+  <br />
+  <label for="observacoes">Observações</label>
+  <input type="text" id="observacoes" formControlName="observacoes"/>
+  <div class="actions">
+    <button (click)="formReset()">reset</button>
+    <button (click)="sendForm()" *ngIf="!update">add</button>
+  </div>
+</form>
