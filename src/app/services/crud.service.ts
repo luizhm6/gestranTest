@@ -8,7 +8,7 @@ export class CrudService {
   constructor(private mock: MockService) {}
 
   getUsers() {
-    return this.mock.users;
+    return this.mock.users.asObservable();
   }
   addUser(user: any) {
     let oldUsers = this.mock.users.getValue();

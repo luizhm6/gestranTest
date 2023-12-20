@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CrudService } from 'src/app/services/crud.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormComponent } from '../form/form.component';
@@ -10,8 +10,12 @@ import { FormComponent } from '../form/form.component';
 export class TableComponent implements OnInit {
   users: any[] = [];
   displayedColumns: string[] = ['acoes', 'nome', 'idade', 'observacoes'];
-  constructor(private service: CrudService, public dialog: MatDialog) {}
   reduced: any[] = [];
+  constructor(
+    private service: CrudService,
+    public dialog: MatDialog,
+    private changeDetectorRefs: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.initializeTable();
@@ -19,8 +23,9 @@ export class TableComponent implements OnInit {
 
   initializeTable() {
     this.service.getUsers().subscribe((users) => {
-      this.users = users;
-      this.reduced = users;
+      this.users = [...users];
+      this.reduced = [...users];
+      console.log('called')
     });
   }
 
@@ -34,8 +39,8 @@ export class TableComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      this.initializeTable();
+    dialogRef.afterClosed().subscribe(() => {
+      this.service.getUsers();
     });
   }
   removeUser(user: any) {
@@ -43,13 +48,17 @@ export class TableComponent implements OnInit {
   }
 
   filter(term: any) {
-    // obs fiz com reduce
     this.reduced = this.users
       .filter(
         (user) =>
           user.nome.toLocaleLowerCase().includes(term.value) ||
           user.idade.toString().includes(term.value)
       )
-      .map(({ id, nome, idade, observacoes }) => ({id, nome, idade, observacoes,}));
+      .map(({ id, nome, idade, observacoes }) => ({
+        id,
+        nome,
+        idade,
+        observacoes,
+      }));
   }
 }
